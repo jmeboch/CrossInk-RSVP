@@ -135,6 +135,11 @@ void ReaderOptionsActivity::loop() {
   });
 
   if (mappedInput.wasReleased(MappedInputManager::Button::Confirm)) {
+    if (ignoreInitialConfirmRelease) {
+      ignoreInitialConfirmRelease = false;
+      return;
+    }
+
     toggleCurrentSetting();
     requestUpdate();
     return;
@@ -187,6 +192,11 @@ void ReaderOptionsActivity::render(RenderLock&&) {
           valueText = settingEnumOptionLabel(setting, value);
         } else if (setting.type == SettingType::VALUE && setting.valuePtr != nullptr) {
           valueText = std::to_string(SETTINGS.*(setting.valuePtr));
+          if (setting.nameId == StrId::STR_RSVP_SPEED) {
+            valueText += "%";
+          } else if (setting.nameId == StrId::STR_RSVP_WORDS_AT_A_TIME) {
+            valueText += " words";
+          }
         }
         return valueText;
       },

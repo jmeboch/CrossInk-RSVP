@@ -38,7 +38,8 @@ class EpubReaderMenuActivity final : public Activity {
                                   const uint8_t currentOrientation, const bool hasFootnotes, const bool hasBookmarks,
                                   const bool isCurrentPageBookmarked, const bool isBookCompleted,
                                   const bool autoPageTurnActive = false,
-                                  const uint16_t autoPageTurnIntervalSeconds = 0);
+                                  const uint16_t autoPageTurnIntervalSeconds = 0,
+                                  bool ignoreInitialConfirmRelease = false);
 
   void onEnter() override;
   void onExit() override;
@@ -72,4 +73,5 @@ class EpubReaderMenuActivity final : public Activity {
   bool autoPageTurnActive = false;
   uint16_t autoPageTurnIntervalSeconds = 0;
   bool settingsChanged = false;
+  bool ignoreInitialConfirmRelease = false;
 };

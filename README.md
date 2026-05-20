@@ -1,8 +1,10 @@
-> **This is a personal fork of [CrossPoint Reader](https://github.com/crosspoint-reader/crosspoint-reader)** with a focus on improved fonts and minimal reading stats.
+# CrossInk-RSVP
+
+> **CrossInk-RSVP is a personal fork of [CrossInk](https://github.com/uxjulia/CrossInk), itself based on [CrossPoint Reader](https://github.com/crosspoint-reader/crosspoint-reader).** This fork replaces the standard EPUB/TXT reading flow with an RSVP reader while keeping the CrossInk typography, stats, and quality-of-life improvements.
 
 ## What's different in this fork
 
-My goal with this fork was to maintain the core Crosspoint firmware while integrating my preferred typography and some lightweight reading statistics. I’ve focused on keeping the underlying system stable while layering in a few "nice-to-have" features and UI refinements along the way.
+My goal with this fork is to maintain the core CrossPoint/CrossInk firmware while turning the Xteink reader into an RSVP device: books are shown one word, or a small group of words, at a time. The existing CrossInk typography, lightweight reading statistics, and UI refinements are still included, but the primary reading experience is now built around rapid serial visual presentation.
 
 <table>
   <tr>
@@ -19,10 +21,11 @@ My goal with this fork was to maintain the core Crosspoint firmware while integr
 
 ---
 
-**Note**: This firmware is confirmed to be working on both the X3 and X4.
+**Note**: This firmware is confirmed to be working on both the X4 but should work on the X3. I do not have one to test with though.
 
 ### Highlights
 
+- RSVP reader mode for EPUB and TXT files, with play/pause, back-a-paragraph navigation, and 1-3 words-at-a-time display options
 - New reader fonts: ChareInk, Lexend Deca, and Bitter
 - Unicode emoji and miscellaneous symbols support (a limited subset)
 - Adjusted font sizes: Teensy (8pt), Tiny (10pt), Small (12pt), Medium (14pt), Large (16pt), Extra Large (18pt), Huge (20pt). See [Font Sizes](#font-sizes) for more details.
@@ -46,7 +49,7 @@ My goal with this fork was to maintain the core Crosspoint firmware while integr
 - Added ability to view Recent Books as a 3x3 grid view
 - Added ability to install custom fonts on the SD card
 - Device simulator during development
-- To view a more detailed list for each version, visit the [releases](https://github.com/uxjulia/CrossInk/releases) page to read release notes.
+- To view a more detailed list for each version, visit the [releases](https://github.com/uxjulia/CrossInk-RSVP/releases) page to read release notes.
 
 ---
 
@@ -63,6 +66,19 @@ The UI now uses [Inter](https://fonts.google.com/specimen/Inter) as the display 
 ### Emojis and Misc Glyphs
 
 - Support for a limited set of Unicode [Emoticons](https://unicode-explorer.com/b/1F600) and [Miscellaneous Symbols](https://unicode-explorer.com/b/2600) using [Noto Emoji](https://fonts.google.com/noto/specimen/Noto+Emoji) and [Noto Sans Symbols](https://fonts.google.com/noto/specimen/Noto+Sans+Symbols) font.
+
+### RSVP reader mode
+
+CrossInk-RSVP opens EPUB and TXT books in an RSVP-style reader instead of the normal paged reader. Text is shown one word at a time by default, with reader options for displaying 1, 2, or 3 words per refresh.
+
+Controls in the RSVP reader:
+
+- **Next page / Right**: play or pause
+- **Previous page / Left**: jump back to the previous paragraph or newline boundary
+- **Menu / Confirm**: open the in-book reader menu
+- **Back**: exit the reader
+
+The RSVP speed is configured as a percentage in Reader Options. At 100%, the target cadence is roughly 240 WPM, with extra delay added after punctuation so sentence breaks are easier to follow.
 
 ---
 
@@ -248,7 +264,7 @@ pio run -e simulator
 ## Installation
 ### Web
 
-1. Download the `firmware-*.bin` file for the build variant of your choosing from the [releases](https://github.com/uxjulia/CrossInk/releases) page
+1. Download the `firmware-*.bin` file for the build variant of your choosing from the [releases](https://github.com/uxjulia/CrossInk-RSVP/releases) page
 2. Connect your Xteink X4 to your computer via USB-C and wake/unlock the device
 3. Go to https://crosspointreader.com/#flash-tools and choose your device
 4. Select "Custom .bin" from the options
@@ -268,7 +284,7 @@ To revert back to the official firmware, you can flash the latest official firmw
 pip3 install esptool
 ```
 
-2. Download the `firmware-*.bin` file from the release of your choice via the [releases](https://github.com/uxjulia/CrossInk/releases)
+2. Download the `firmware-*.bin` file from the release of your choice via the [releases](https://github.com/uxjulia/CrossInk-RSVP/releases)
 3. Connect your Xteink X4 to your computer via USB-C.
 4. Note the device location. On Linux, run `dmesg | grep tty` after connecting. On macOS, run `ls /dev/cu.*` before and after connecting — the new entry is your device (typically `/dev/cu.usbmodem*`).
 
@@ -311,10 +327,10 @@ To revert to the official firmware, you can flash the latest official firmware u
 
 ### Setup
 
-CrossInk uses PlatformIO for building and flashing the firmware. To get started, clone the repository:
+CrossInk-RSVP uses PlatformIO for building and flashing the firmware. To get started, clone the repository:
 
 ```
-git clone --recursive https://github.com/uxjulia/CrossInk
+git clone --recursive https://github.com/uxjulia/CrossInk-RSVP
 
 # if cloned without --recursive:
 git submodule update --init --recursive
@@ -361,7 +377,7 @@ on this constraint.
 
 ### Data caching
 
-The first time a book is loaded, CrossInk writes reusable data to the SD card so later opens do not have to rebuild
+The first time a book is loaded, CrossInk-RSVP writes reusable data to the SD card so later opens do not have to rebuild
 everything from scratch. This data lives in `.crosspoint` on the SD card. The directory also contains device settings,
 saved servers, recent books, bookmarks, and reading stats, so it is more than just a disposable render cache.
 

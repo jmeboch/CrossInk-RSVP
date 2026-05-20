@@ -513,14 +513,15 @@ std::optional<uint16_t> Section::getPageForParagraphIndex(const uint16_t pIndex)
     return std::nullopt;
   }
 
-  uint16_t resultPage = count - 1;
+  uint16_t resultPage = 0;
   for (uint16_t i = 0; i < count; i++) {
     uint16_t pagePIdx;
     if (!serialization::tryReadPod(f, pagePIdx)) {
       return std::nullopt;
     }
-    if (pagePIdx >= pIndex) {
+    if (pagePIdx <= pIndex) {
       resultPage = i;
+    } else {
       break;
     }
   }

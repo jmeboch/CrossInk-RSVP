@@ -76,7 +76,8 @@ EpubReaderMenuActivity::EpubReaderMenuActivity(GfxRenderer& renderer, MappedInpu
                                                const bool hasFootnotes, const bool hasBookmarks,
                                                const bool isCurrentPageBookmarked, const bool isBookCompleted,
                                                const bool autoPageTurnActive,
-                                               const uint16_t autoPageTurnIntervalSeconds)
+                                               const uint16_t autoPageTurnIntervalSeconds,
+                                               const bool ignoreInitialConfirmRelease)
     : Activity("EpubReaderMenu", renderer, mappedInput),
       menuItems(buildMenuItems(hasFootnotes, hasBookmarks, isCurrentPageBookmarked, isBookCompleted)),
       title(title),
@@ -85,7 +86,8 @@ EpubReaderMenuActivity::EpubReaderMenuActivity(GfxRenderer& renderer, MappedInpu
       totalPages(totalPages),
       bookProgressPercent(bookProgressPercent),
       autoPageTurnActive(autoPageTurnActive),
-      autoPageTurnIntervalSeconds(autoPageTurnIntervalSeconds) {}
+      autoPageTurnIntervalSeconds(autoPageTurnIntervalSeconds),
+      ignoreInitialConfirmRelease(ignoreInitialConfirmRelease) {}
 
 std::vector<EpubReaderMenuActivity::MenuItem> EpubReaderMenuActivity::buildMenuItems(bool hasFootnotes,
                                                                                      bool hasBookmarks,
@@ -141,6 +143,11 @@ void EpubReaderMenuActivity::loop() {
   });
 
   if (mappedInput.wasReleased(MappedInputManager::Button::Confirm)) {
+    if (ignoreInitialConfirmRelease) {
+      ignoreInitialConfirmRelease = false;
+      return;
+    }
+
     const auto selectedAction = menuItems[selectedIndex].action;
     if (selectedAction == MenuAction::ROTATE_SCREEN) {
       // Cycle orientation preview locally; actual rotation happens on menu exit.

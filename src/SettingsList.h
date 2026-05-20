@@ -316,6 +316,10 @@ inline std::vector<SettingInfo> getSettingsList(const SdCardFontRegistry* regist
         StrId::STR_PARA_ALIGNMENT, &CrossPointSettings::paragraphAlignment,
         {StrId::STR_JUSTIFY, StrId::STR_ALIGN_LEFT, StrId::STR_CENTER, StrId::STR_ALIGN_RIGHT, StrId::STR_BOOK_S_STYLE},
         "paragraphAlignment", StrId::STR_CAT_READER));
+    add(SettingInfo::Value(StrId::STR_RSVP_SPEED, &CrossPointSettings::rsvpSpeedPercent, {5, 100, 5},
+                           "rsvpSpeedPercent", StrId::STR_CAT_READER));
+    add(SettingInfo::Value(StrId::STR_RSVP_WORDS_AT_A_TIME, &CrossPointSettings::rsvpWordsAtATime, {1, 3, 1},
+                           "rsvpWordsAtATime", StrId::STR_CAT_READER));
     add(SettingInfo::Toggle(StrId::STR_EMBEDDED_STYLE, &CrossPointSettings::embeddedStyle, "embeddedStyle",
                             StrId::STR_CAT_READER));
     add(SettingInfo::Toggle(StrId::STR_HYPHENATION, &CrossPointSettings::hyphenationEnabled, "hyphenationEnabled",

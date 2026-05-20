@@ -322,6 +322,10 @@ class CrossPointSettings {
 #endif
   uint8_t lineSpacing = NORMAL;
   uint8_t paragraphAlignment = JUSTIFIED;
+  // RSVP playback speed percentage. 100 is the fastest supported cadence.
+  uint8_t rsvpSpeedPercent = 100;
+  // Number of words shown on each RSVP refresh.
+  uint8_t rsvpWordsAtATime = 1;
   // Auto-sleep timeout setting (default 10 minutes). Legacy sleepTimeout enum values are migration-only.
   uint8_t sleepTimeoutMinutes = 10;
   // E-ink refresh frequency (default 15 pages)

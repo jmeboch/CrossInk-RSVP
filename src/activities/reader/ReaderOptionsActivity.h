@@ -17,11 +17,15 @@ class ReaderOptionsActivity final : public Activity {
   void toggleCurrentSetting();
 
  public:
-  explicit ReaderOptionsActivity(GfxRenderer& renderer, MappedInputManager& mappedInput)
-      : Activity("ReaderOptions", renderer, mappedInput) {}
+  explicit ReaderOptionsActivity(GfxRenderer& renderer, MappedInputManager& mappedInput,
+                                 bool ignoreInitialConfirmRelease = false)
+      : Activity("ReaderOptions", renderer, mappedInput), ignoreInitialConfirmRelease(ignoreInitialConfirmRelease) {}
   void onEnter() override;
   void onExit() override;
   void loop() override;
   void render(RenderLock&&) override;
   bool allowPowerAsConfirmInReaderMode() const override { return true; }
+
+ private:
+  bool ignoreInitialConfirmRelease = false;
 };
